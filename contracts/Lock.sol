@@ -47,7 +47,6 @@ contract Lock {
 
         (bool success, bytes memory data) = deployment.call("");
 
-
 		// result 0: should not occur
 		// result 1: success
 		// result 2: failure
@@ -62,25 +61,6 @@ contract Lock {
 		// 	mstore8(0x00, result)
 		// 	revert(0x00, 0x01)
 		// }
-
-        // if (!success) {
-        // 	revert(0);
-        // }
-        // revert((keccak256(data) == answer) ? 0x0001 : 0x0000);
-
-        // // console.log("     s: ", success);
-        // // console.log("     d: ", abi.decode(data, (uint256)));
-
-        // // assembly {
-        // // 	let ptr := mload(0x40)
-        // // 	let size := returndatasize()
-        // // 	returndatacopy(ptr, 0, size)
-        // // 	revert(ptr, size)
-        // // }
-
-		        // console.logBytes32(keccak256(data));
-        // console.logBytes32(answer);
-        //console.log(keccak256(data) == keccak256(abi.encodePacked(answer)) ? "success" : "failure");
 
         if (!success) {
             console.log("bad bytecode");
@@ -104,8 +84,50 @@ contract Player {
 
 		console.log(success);
 		console.logBytes(data);
+    }
+}
 
-		// uint256 result = 0;
+// jump(shr(253, calldataload(0)))
+// https://gist.github.com/Philogy/2de6348f6d5ea36ab24d95356f9ef088
+
+
+        // if (!success) {
+        // 	revert(0);
+        // }
+        // revert((keccak256(data) == answer) ? 0x0001 : 0x0000);
+
+        // // console.log("     s: ", success);
+        // // console.log("     d: ", abi.decode(data, (uint256)));
+
+        // // assembly {
+        // // 	let ptr := mload(0x40)
+        // // 	let size := returndatasize()
+        // // 	returndatacopy(ptr, 0, size)
+        // // 	revert(ptr, size)
+        // // }
+
+		        // console.logBytes32(keccak256(data));
+        // console.logBytes32(answer);
+        //console.log(keccak256(data) == keccak256(abi.encodePacked(answer)) ? "success" : "failure");
+
+
+
+		    // function _getRevertMsg(bytes memory _returnData)
+    //     internal
+    //     pure
+    //     returns (string memory)
+    // {
+    //     // If the _res length is less than 68, then the transaction failed silently (without a revert message)
+    //     if (_returnData.length < 68) return "Transaction reverted silently";
+
+    //     assembly {
+    //         // Slice the sighash.
+    //         _returnData := add(_returnData, 0x04)
+    //     }
+    //     return abi.decode(_returnData, (string)); // All that remains is the revert string
+    // }
+
+			// uint256 result = 0;
 		// assembly {
 		// 	let ptr := mload(0x40)
 		// 	returndatacopy(ptr, 0, 1)
@@ -131,23 +153,3 @@ contract Player {
 
         // console.log("     s: ", success);
         // console.logBytes(data);
-    }
-
-    // function _getRevertMsg(bytes memory _returnData)
-    //     internal
-    //     pure
-    //     returns (string memory)
-    // {
-    //     // If the _res length is less than 68, then the transaction failed silently (without a revert message)
-    //     if (_returnData.length < 68) return "Transaction reverted silently";
-
-    //     assembly {
-    //         // Slice the sighash.
-    //         _returnData := add(_returnData, 0x04)
-    //     }
-    //     return abi.decode(_returnData, (string)); // All that remains is the revert string
-    // }
-}
-
-// jump(shr(253, calldataload(0)))
-// https://gist.github.com/Philogy/2de6348f6d5ea36ab24d95356f9ef088
