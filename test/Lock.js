@@ -22,24 +22,44 @@ describe("Lock", function () {
   describe("Lock", function () {
     it("Should revert with bad bytecode on bad code", async function () {
       const { lock } = await loadFixture(deployLockFixture);
-        await expect(lock.unlock("0x6003")).to.be.revertedWith("bad bytecode");
-    //   await expect(lock.unlock("0x6003")).to.be.reverted;
+      // await expect(lock.unlock("0x6003")).to.be.revertedWith("bad bytecode");
+      await expect(lock.unlock("0x6003"))
+        .to.be.revertedWithCustomError(lock, "result")
+        .withArgs(3);
     });
     it("Should revert with failure on wrong answer", async function () {
       const { lock } = await loadFixture(deployLockFixture);
-      await expect(lock.unlock("0x60036005")).to.be.revertedWith("failure");
+      //   await expect(lock.unlock("0x60036005")).to.be.revertedWith("failure");
+      await expect(lock.unlock("0x60036005"))
+        .to.be.revertedWithCustomError(lock, "result")
+        .withArgs(2);
     });
     it("Should revert with success on right answer", async function () {
       const { lock } = await loadFixture(deployLockFixture);
-      await expect(lock.unlock("0x60036006")).to.be.revertedWith("success");
+      //   await expect(lock.unlock("0x60036006")).to.be.revertedWith("success");
+      await expect(lock.unlock("0x60036006"))
+        .to.be.revertedWithCustomError(lock, "result")
+        .withArgs(1);
     });
   });
 
   describe("Player", function () {
-    it("Should revert with success on right answer", async function () {
+    it("Should return false on bad code", async function () {
       const { lock, player } = await loadFixture(deployLockFixture);
-      console.log(await player.play(lock.address, "0x60036006"));
-      //   await expect(lock.unlock("0x60036006")).to.be.revertedWith("success");
+      //console.log(await player.play(lock.address, "0x6003"));
+      expect(await player.play(lock.address, "0x6003")).to.equal(false);
+    });
+
+    it("Should return false on wrong answer", async function () {
+      const { lock, player } = await loadFixture(deployLockFixture);
+      //console.log(await player.play(lock.address, "0x60036005"));
+      expect(await player.play(lock.address, "0x60036005")).to.equal(false);
+    });
+
+    it("Should return true on right answer", async function () {
+      const { lock, player } = await loadFixture(deployLockFixture);
+      //console.log(await player.play(lock.address, "0x60036006"));
+      expect(await player.play(lock.address, "0x60036006")).to.equal(true);
     });
   });
 });
