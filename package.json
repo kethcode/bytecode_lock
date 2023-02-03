@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hardhat": "^2.12.6"
+    "hardhat": "^2.12.6",
+    "solc": "^0.8.18"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",

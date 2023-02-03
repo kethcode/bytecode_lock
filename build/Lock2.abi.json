@@ -1,0 +1,21 @@
+[
+	{
+		"name":"unlock",
+		"type":"function",
+		"stateMutability":"pure",
+		"inputs": [
+			{
+				"internalType":"bytes",
+				"name":"input",
+				"type":"bytes"
+			}
+		],
+		"outputs": [
+			{
+				"internalType":"bytes",
+				"name":"",
+				"type":"bytes"
+			}
+		]
+	}
+]
